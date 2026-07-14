@@ -1,0 +1,11 @@
+FROM redis:7.2-alpine
+
+# Keep session data across container restarts when /data is mounted.
+VOLUME ["/data"]
+
+EXPOSE 6379
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=5 \
+  CMD redis-cli ping || exit 1
+
+CMD ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]

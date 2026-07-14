@@ -1,0 +1,8 @@
+target/
+.git/
+.settings/
+.classpath
+.project
+apache-maven-3.6.3/
+apache-maven-3.6.3-bin.zip
+bin/

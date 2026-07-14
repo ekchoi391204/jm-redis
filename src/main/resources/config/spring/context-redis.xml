@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+
+	<!--
+		Replaces the servlet container's HttpSession implementation with
+		a Redis-backed implementation. The timeout matches web.xml (60 minutes).
+	-->
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"
+		p:maxInactiveIntervalInSeconds="3600"
+		p:redisNamespace="jm-market:session" />
+
+	<bean id="redisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		destroy-method="destroy"
+		p:hostName="#{systemEnvironment['REDIS_HOST'] ?: 'redis.cloud.local'}"
+		p:port="#{systemEnvironment['REDIS_PORT'] != null ? T(java.lang.Integer).parseInt(systemEnvironment['REDIS_PORT']) : 6379}" />
+
+</beans>

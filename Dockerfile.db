@@ -1,0 +1,11 @@
+FROM mysql:8.0
+
+ENV MYSQL_DATABASE=jm_market
+ENV MYSQL_USER=jm_user
+ENV MYSQL_PASSWORD=jm_password
+ENV MYSQL_ROOT_PASSWORD=root_password
+ENV TZ=Asia/Seoul
+
+COPY src/main/resources/db/init-mysql.sql /docker-entrypoint-initdb.d/01-init-mysql.sql
+
+EXPOSE 3306
